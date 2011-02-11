@@ -1,0 +1,76 @@
+body {
+    font-family: Georgia, 'palatino linotype', palatino, serif;
+    font-size: 15px;
+    font-weight: bold;
+
+    line-height: 23px;
+
+    background-color: #222;
+}
+
+.online {
+    color: #eeeeee;
+}
+
+.offline {
+    color: #feaba0;
+}
+ 
+* {
+   margin: 0;
+   padding: 0;
+}
+ 
+/* macs won't see this! \*/
+html, body { 
+   height:100%;
+   width:100%;
+}
+/* END mac */
+ 
+#outer {
+   height:100%;
+   width:100%;
+   display:table;
+   vertical-align:middle;
+}
+ 
+#middle {
+   display:table-cell;
+   vertical-align:middle;
+}
+ 
+#inner {
+   text-align: center;
+   width: 852px;
+   margin-left:auto;
+   margin-right:auto;
+}
+
+#status {
+    position: relative;
+    left: 0px;
+    top: 0px;
+    float: left;
+}
+
+.playeritem, .infoitem{
+    text-align: right;
+    margin-top: -5px;
+}  
+
+#infos, #player {
+    position: relative;
+    top: 0px;
+    text-align: right;
+    height: 120px;
+}
+
+#infolist, #playerlist {
+     width: 421px;
+     position: absolute;
+     right: 0px;
+     padding-top: 5px;
+     padding-right: 4px;
+     margin-top: -10px;
+}

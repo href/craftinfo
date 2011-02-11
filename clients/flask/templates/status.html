@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+
+<title>Minecraft Server Status</title>
+<link rel="stylesheet" type="text/css" href="static/style.css" />
+
+</head>
+
+<body class="{% if online %}online{% else %}offline{% endif %}"><div id="outer"><div id="middle"><div id="inner">
+<div id="status">
+    <img src="static/{% if online %}online.png{% else %}offline.png{% endif %}" />
+</div>
+
+<div id="player"><img src="static/{{playercount}}.png" />
+    <div id="playerlist">
+        {% for p in players %}
+        <p class="playeritem">{{p}}</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div id="infos"><img src="static/infos.png" />
+    <div id="infolist">
+        {% for u in updates %}
+        <p class="infoitem">{{u}}</p>
+        {% endfor %}
+    </div>
+</div>
+
+</div></div></div></body>
+
+</html>

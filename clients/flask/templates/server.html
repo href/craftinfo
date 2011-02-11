@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+
+<title>Minecraft Server</title>
+<link rel="stylesheet" type="text/css" href="static/style.css" />
+
+</head>
+
+<body>
+<img src="static/title.png" alt="Minecraft Server">
+<div class="splash">{{ splash }}</div>
+<h2>{% if online %} Online {% else %} Offline {% endif %}</h2>
+
+{% if online %}
+	<p>Last boot: {{ boottime }}</p>
+{% endif %}
+
+<h2>Players</h2>
+<p>
+{% if players|length == 0 %}
+	No players online
+{% else %}
+	<ul>
+	{% for player in players %}
+		<li>{{ player }}</li>
+	{% endfor %}	
+	</ul>
+{% endif %}
+</p>
+
+<h2>Updates</h2>
+<p>
+{% if updates|length == 0 %}
+	No updates
+{% else %}
+	<ul>
+	{% for date, update in updates %}
+		<li><span class="date">{{ date }}</span> {{ update }}</li>
+	{% endfor %}
+	</ul>
+{% endif %}
+</p>
+</body>
+</html>

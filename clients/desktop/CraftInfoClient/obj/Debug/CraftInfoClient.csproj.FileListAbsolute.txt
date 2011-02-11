@@ -1,0 +1,9 @@
+E:\_Austritt\Scripts\CraftInfo\CraftInfoClient\obj\Debug\ResolveAssemblyReference.cache
+E:\_Austritt\Scripts\CraftInfo\CraftInfoClient\obj\Debug\CraftInfo.Main.resources
+E:\_Austritt\Scripts\CraftInfo\CraftInfoClient\obj\Debug\CraftInfo.Properties.Resources.resources
+E:\_Austritt\Scripts\CraftInfo\CraftInfoClient\obj\Debug\GenerateResource-ResGen.read.1.tlog
+E:\_Austritt\Scripts\CraftInfo\CraftInfoClient\obj\Debug\GenerateResource-ResGen.write.1.tlog
+E:\_Austritt\Scripts\CraftInfo\CraftInfoClient\bin\Debug\CraftInfo.exe
+E:\_Austritt\Scripts\CraftInfo\CraftInfoClient\bin\Debug\CraftInfo.pdb
+E:\_Austritt\Scripts\CraftInfo\CraftInfoClient\obj\Debug\CraftInfo.exe
+E:\_Austritt\Scripts\CraftInfo\CraftInfoClient\obj\Debug\CraftInfo.pdb
