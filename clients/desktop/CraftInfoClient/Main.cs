@@ -14,7 +14,7 @@ namespace CraftInfo
     public partial class Main : Form
     {
         private ServerInfo m_Info = new ServerInfo();
-        private const string m_Server = "href.ch";
+        private const string m_Server = "";
         private const int m_Port = 5001;
 
         public Main()

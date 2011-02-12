@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-"""Returns information about the Minecraft-Server (on href.ch)
+"""Returns information about the Minecraft-Server
 
 The server needs to be run on the same computer. Currently, only Unix
 is fully supported.
