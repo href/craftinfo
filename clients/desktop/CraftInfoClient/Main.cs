@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,8 +15,10 @@ namespace CraftInfo
     public partial class Main : Form
     {
         private ServerInfo m_Info = new ServerInfo();
-        private const string m_Server = "";
-        private const int m_Port = 5001;
+
+        //set these values before compiling to create a config-free app
+        private string m_Server = "";
+        private int m_Port = 0;
 
         public Main()
         {
@@ -23,12 +26,72 @@ namespace CraftInfo
             this.Visible = false;
         }
 
+        /// <summary>
+        /// Starts up the application and loads the config.ini, if the server
+        /// is not hard-coded. The config.ini must reside in the same directory
+        /// as the executable and must contain the following lines:
+        /// server = example.com
+        /// port = 1234
+        /// </summary>
         private void Main_Load(object sender, EventArgs e)
         {
+            //Load the config.ini
+            if (m_Server.Length == 0 || m_Port == 0)
+            {
+                StreamReader reader = null;
+                try
+                {
+                    reader = new StreamReader("./config.ini");
+
+                    string line, value;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        if ((value = GetIniLine(ref line, "server")) != null)
+                            m_Server = value;
+
+                        if ((value = GetIniLine(ref line, "port")) != null)
+                            m_Port = System.Convert.ToInt32(value);
+                    }
+                }
+                catch (FileNotFoundException)
+                {
+                    MessageBox.Show("Server undefined and config.ini not found");
+                    System.Environment.Exit(1);
+                }
+                finally
+                {
+                    if (reader != null)
+                        reader.Close();
+                }
+            }
+
+            //Start up with an error-icon to be replaced on connect
             notifyIcon.Icon = CraftInfo.Properties.Resources.err;
             notifyIcon.ContextMenu = new ContextMenu();
+            
+            //Start showing information
             UpdateStatus();
+
+            //.. and schedule further lookups
             this.timerUpdate.Start();
+        }
+
+        /// <summary>
+        /// Gets the value of an ini-style config file
+        /// </summary>
+        /// <param name="Line">The complete line of the ini</param>
+        /// <param name="ItemName">The value to be read i.e. the value name
+        /// in front of the equal sign ("ItemName = Value")</param>
+        /// <returns>The trimmed value after the equal sign or null</returns>
+        private string GetIniLine(ref string Line, string ItemName)
+        {
+            if (Line.StartsWith(ItemName,StringComparison.OrdinalIgnoreCase))
+            {
+                int pos = Line.IndexOf("=");
+                string Value = Line.Substring(pos + 1);
+                return Value.Trim(new char[] { ' ', '\t', '\n' });
+            }
+            return null;
         }
 
         private void On_Close(object sender, EventArgs e)
@@ -36,6 +99,10 @@ namespace CraftInfo
             Close();
         }
 
+        /// <summary>
+        /// Gets the current server status and shows balloons for items that
+        /// changed since the last update.
+        /// </summary>
         private void UpdateStatus()
         {
             bool LoadedBefore = m_Info.IsLoaded();
@@ -43,6 +110,7 @@ namespace CraftInfo
 
             List<string> OldPlayers = new List<string>(m_Info.GetPlayers());
             
+            //connect to the server
             try
             {
                 m_Info.Load(m_Server, m_Port);
@@ -61,6 +129,10 @@ namespace CraftInfo
 
             if (m_Info.IsOnline())
             {
+                //show icon with the number of players (1-9 or more)
+
+                //TODO: dynamically draw icons to allow for more than 1-9 as 
+                //number-of-players icons
                 notifyIcon.Text = String.Format("Server Online ({0} Player)", PlayerCount);
                 switch (PlayerCount)
                 {
@@ -99,12 +171,13 @@ namespace CraftInfo
                         break;
                 }
             }
-            else
+            else //server offline
             {
                 notifyIcon.Text = String.Format("{0} Offline", m_Server);
                 notifyIcon.Icon = Resources.off;
             }
 
+            // show ballon upon server boot/shutdown
             if (LoadedBefore && OnlineBefore != m_Info.IsOnline())
             {
                 if (m_Info.IsOnline())
@@ -114,6 +187,7 @@ namespace CraftInfo
 
             }
 
+            // show players that joined or left since the last update
             if (LoadedBefore && OnlineBefore == m_Info.IsOnline())
             {
                 StringBuilder Balloon = new StringBuilder();
@@ -128,6 +202,7 @@ namespace CraftInfo
                 ShowTip(Balloon.ToString());
             }
 
+            //redraw the context menu
             notifyIcon.ContextMenu.MenuItems.Clear();
 
             notifyIcon.ContextMenu.MenuItems.Add(PlayerCount + " Players Online");
@@ -144,6 +219,12 @@ namespace CraftInfo
             notifyIcon.ContextMenu.MenuItems.Add(new MenuItem("Close", On_Close));
         }
 
+        /// <summary>
+        /// Creates a human readable list of players that joined or left the server
+        /// </summary>
+        /// <param name="OldPlayers">List of players from the previous update</param>
+        /// <param name="NewPlayers">List of players from the current update</param>
+        /// <returns>The changes in human readable format</returns>
         private List<string> GetChanges(List<string> OldPlayers, List<string> NewPlayers)
         {
             List<string> Changes = new List<string>();
@@ -167,11 +248,18 @@ namespace CraftInfo
             return Changes;
         }
 
+        /// <summary>
+        /// Update status on every timer event
+        /// </summary>
         private void timerUpdate_Tick(object sender, EventArgs e)
         {
             UpdateStatus();
         }
 
+        /// <summary>
+        /// Show a balloon text
+        /// </summary>
+        /// <param name="Tip">Any value to be shown</param>
         private void ShowTip(string Tip)
         {
             if (Tip.Length > 0)

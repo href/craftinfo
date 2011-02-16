@@ -7,3 +7,14 @@ E:\_Austritt\Scripts\CraftInfo\CraftInfoClient\bin\Debug\CraftInfo.exe
 E:\_Austritt\Scripts\CraftInfo\CraftInfoClient\bin\Debug\CraftInfo.pdb
 E:\_Austritt\Scripts\CraftInfo\CraftInfoClient\obj\Debug\CraftInfo.exe
 E:\_Austritt\Scripts\CraftInfo\CraftInfoClient\obj\Debug\CraftInfo.pdb
+E:\Sourcen\craftinfo\clients\desktop\CraftInfoClient\obj\Debug\CraftInfo.exe
+E:\Sourcen\craftinfo\clients\desktop\CraftInfoClient\obj\Debug\CraftInfo.pdb
+E:\Sourcen\craftinfo\clients\desktop\CraftInfoClient\bin\Debug\CraftInfo.exe
+E:\Sourcen\craftinfo\clients\desktop\CraftInfoClient\bin\Debug\CraftInfo.pdb
+E:\Sourcen\craftinfo\clients\desktop\CraftInfoClient\obj\Debug\ResolveAssemblyReference.cache
+E:\Sourcen\craftinfo\clients\desktop\CraftInfoClient\obj\Debug\CraftInfo.Main.resources
+E:\Sourcen\craftinfo\clients\desktop\CraftInfoClient\obj\Debug\CraftInfo.Properties.Resources.resources
+E:\Sourcen\craftinfo\clients\desktop\CraftInfoClient\obj\Debug\GenerateResource-ResGen.read.1.tlog
+E:\Sourcen\craftinfo\clients\desktop\CraftInfoClient\obj\Debug\ResGen.read.1.tlog
+E:\Sourcen\craftinfo\clients\desktop\CraftInfoClient\obj\Debug\GenerateResource-ResGen.write.1.tlog
+E:\Sourcen\craftinfo\clients\desktop\CraftInfoClient\obj\Debug\ResGen.write.1.tlog
