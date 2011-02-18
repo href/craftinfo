@@ -113,6 +113,10 @@ class LogParser(object):
             if 'Starting' in line:
                 self._starttime = self._get_date(line)
                 self.version = self._get_serverversion(line)
+
+                # clear the playerlist as there cannot be any connected
+                # player on startup
+                self._players.clear
                 self.events.on_serverstart(self.version, self._starttime)
                 continue
 
