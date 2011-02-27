@@ -31,7 +31,7 @@ MORELINES = (
     "\n",
     "\n",
     "2010-11-30 20:00:37 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?\n",
-    "2010-11-30 20:22:07 [INFO] user_test lost connection: Quitting\n"  
+    "2010-11-30 20:22:07 [INFO] user_test [/123.123.123.12:12345] lost connection\n"  
 )
 
 LOGFILE = "generated.log"

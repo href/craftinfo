@@ -116,7 +116,7 @@ class LogParser(object):
 
                 # clear the playerlist as there cannot be any connected
                 # player on startup
-                self._players.clear
+                self._players.clear()
                 self.events.on_serverstart(self.version, self._starttime)
                 continue
 
@@ -136,7 +136,7 @@ class LogParser(object):
         Otherwise None is returned
 
         """
-        m = re.search("\[INFO\]\s([a-zA-Z0-9_]*)\s\[", line)
+        m = re.search("\[INFO\]\s([a-zA-Z0-9_]*)\s.*logged in", line)
         if m == None:
             return None
         else:
@@ -148,7 +148,8 @@ class LogParser(object):
         Otherwise None is returned
 
         """
-        m = re.search("\[INFO\]\s([a-zA-Z0-9_]*)\slost connection", line)
+        m = re.search("\[INFO\]\s([a-zA-Z0-9_]*)\s.*lost connection", line)
+
         if m == None:
             return None
         else:
