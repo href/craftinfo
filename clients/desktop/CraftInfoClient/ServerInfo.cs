@@ -4,21 +4,23 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Xml;
+using System.Threading;
 
 namespace CraftInfo
 {
+
     /// <summary>
     /// Class representing the server-information
     /// 
-    /// This class can connect to a Craftinfo-server, get the XML and parse
+    /// This class can connect to a CraftInfo Server, get the XML and parse
     /// it. The results are stored within the members of this very class.
     /// </summary>
     class ServerInfo
     {
-        private bool m_IsOnline = false;
         List<string> m_Players = new List<string>();
         List<string> m_Updates = new List<string>();
-        private bool m_IsLoaded = false;
+        private bool m_IsOnline = false;
+        private bool m_IsInit = false;
 
         /// <summary>
         /// Connects to the server, gets the XML and parses it.
@@ -26,42 +28,16 @@ namespace CraftInfo
         /// </summary>
         /// <param name="Host">Hostadress</param>
         /// <param name="Port">Port</param>
-        public void Load(string Host, int Port)
+        public void Init(string Host, int Port)
         {
             //clear info from any previous runs
             m_Players.Clear();
             m_Updates.Clear();
 
-            //connect to the server and get the xml string via socket
-            string xmlstring = "";
-            Socket server = null;
-            try
-            {
-                IPEndPoint ip = new IPEndPoint(Dns.GetHostAddresses(Host)[0], Port);
-
-                server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-                server.Connect(ip);
-
-                //read from the socket until the end of the stream
-                byte[] data = new byte[1024];
-                int length = 0;
-                while (!xmlstring.Contains("</info>"))
-                {
-                    length = server.Receive(data);
-
-                    if (length == 0)
-                        break;
-
-                    xmlstring += Encoding.ASCII.GetString(data, 0, length);
-                }
-            }
-            finally
-            {
-                server.Shutdown(SocketShutdown.Both);
-                server.Close();
-            }
+            //connect to the server and get the XML string via socket
+            string xmlstring = ServerInfo.GetServerValue(Host, Port);
             
-            //Parse the xml
+            //Parse the XML
             var Xml = new XmlDocument();
             Xml.InnerXml = xmlstring;
 
@@ -86,7 +62,45 @@ namespace CraftInfo
                 }
             }
 
-            m_IsLoaded = true;
+            m_IsInit = true;
+        }
+
+        /// <summary>
+        /// Gets the value of a CraftInfo Server
+        /// TODO: Threads to avoid hanging
+        /// </summary>
+        public static string GetServerValue(string Host, int Port)
+        {
+            string Value = "";
+            Socket Server = null;
+
+            try
+            {
+                IPEndPoint ip = new IPEndPoint(Dns.GetHostAddresses(Host)[0], Port);
+
+                Server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+                Server.Connect(ip);
+
+                //read from the socket until the end of the stream
+                byte[] data = new byte[1024];
+                int length = 0;
+                while (!Value.Contains("</info>"))
+                {
+                    length = Server.Receive(data);
+
+                    if (length == 0)
+                        break;
+
+                    Value += Encoding.ASCII.GetString(data, 0, length);
+                }
+            }
+            finally
+            {
+                Server.Shutdown(SocketShutdown.Both);
+                Server.Close();
+            }
+
+            return Value;
         }
 
         /// <summary>
@@ -118,7 +132,7 @@ namespace CraftInfo
         /// </summary>
         public bool IsLoaded()
         {
-            return m_IsLoaded;
+            return m_IsInit;
         }
     }
 }

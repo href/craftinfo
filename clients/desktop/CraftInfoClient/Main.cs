@@ -113,7 +113,7 @@ namespace CraftInfo
             //connect to the server
             try
             {
-                m_Info.Load(m_Server, m_Port);
+                m_Info.Init(m_Server, m_Port);
             }
             catch (System.Exception)
             {
