@@ -4,13 +4,6 @@ import os
 import re
 from datetime import datetime
 from time import strptime
-from itertools import imap
-
-from gevent import socket
-import xml.etree.ElementTree as ET
-
-from craftinfo.proc import get_proclist
-import craftinfo.db.tables as tables
 
 class LogEvents(object):
     """Provides a list with events triggered by the LogParser.
@@ -48,6 +41,7 @@ class LogParser(object):
         
     def __del__(self):
         """Ensures that the file-handle is released upon deletion."""
+        print "del"
         self._stopfollowing()
 
     def _stopfollowing(self):
@@ -177,6 +171,7 @@ def _follow(logfile):
 
     """
     try:
+        assert(os.path.exists(logfile) and os.path.isfile(logfile))
         with open(logfile, "rb") as f:
             while True:
                 yield f.readline()

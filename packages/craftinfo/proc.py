@@ -10,7 +10,7 @@ are OS-dependent e.g. giving you more information in a Unix environment.
 
 import os
 from ctypes import *
-
+from subprocess import Popen, PIPE
 
 def get_proclist():
     """Return a list of running processes depending on the OS."""
@@ -26,14 +26,23 @@ def get_proclist_posix():
     Note that this method fails on Windows
 
     """
-    pids= [pid for pid in os.listdir('/proc') if pid.isdigit()]
-    
-    procs = []
-    for pid in pids:
-        procs.append(open(os.path.join('/proc', pid, 'cmdline'), 'rb').read())
 
-    return procs
+    procfs = os.path.isdir('/proc')
 
+    if procfs:
+        pids= [pid for pid in os.listdir('/proc') if pid.isdigit()]
+        
+        procs = []
+        for pid in pids:
+            procs.append(open(os.path.join('/proc', pid, 'cmdline'), 'rb').read())
+
+        return procs
+    else:
+        # some unixes like osx are not using procfs, use ps aux in this case
+        proc = Popen('ps aux', stdout=PIPE, stderr=PIPE, shell=True)
+        stdout, stderr = proc.communicate()
+        return stdout.split('os.linesep')
+        
 
 def get_proclist_win():
     """

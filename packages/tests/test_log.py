@@ -9,9 +9,7 @@ from __future__ import with_statement
 
 import os
 import sys
-import imp
 import unittest
-import pdb
 
 sys.path.append("./../")
 
@@ -84,7 +82,9 @@ class TestLogParser(unittest.TestCase):
         self.assertEqual(len(players), 0)
 
         #removing the logfile has to fail as info still has the handle
-        self.assertRaises(OSError, removelog)
+        #(apparently only windows raises an error)
+        if os.name == 'nt':
+            self.assertRaises(OSError, removelog)
 
         del log
 
