@@ -11,16 +11,7 @@ is fully supported.
 from __future__ import with_statement
 
 import os
-import re
-from datetime import datetime
-from time import strptime
-from itertools import imap
-
-from gevent import socket
-import xml.etree.ElementTree as ET
-
 from craftinfo.proc import get_proclist
-import craftinfo.db.tables as tables
 
 def is_running():
     """Returns True if the Server is running.

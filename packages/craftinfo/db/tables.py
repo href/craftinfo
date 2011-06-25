@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Table, Column, MetaData, ForeignKey, Sequence
+from sqlalchemy import Column
 from sqlalchemy import Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 

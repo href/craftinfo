@@ -11,7 +11,6 @@ Entering 'help' after starting the server reveils these commands.
 """
 
 import os
-import time
 import threading
 from datetime import datetime
 

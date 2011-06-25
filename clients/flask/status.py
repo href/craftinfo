@@ -10,8 +10,6 @@ If the script is executed directly, the flask dev-server is started.
 
 """
 
-import os
-from time import strftime
 from flask import Flask
 from flask import render_template
 from craftinfoserver import get_serverinfo
